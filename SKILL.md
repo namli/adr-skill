@@ -18,6 +18,10 @@ If `docs/DECISIONS.md` does not exist: `mkdir -p docs/decisions`, copy
 user in one line that `${CLAUDE_SKILL_DIR}/assets/claude-md-section.md` holds
 the section they can paste into `CLAUDE.md` themselves. Never edit `CLAUDE.md`.
 
+If `CLAUDE.md` or a page under `docs/` already names another place for
+decisions (search them for "decision"), say so in one line: two homes drift.
+From now on the reasons live in the record, and that place cites `ADR-NNNN`.
+
 ## 2. Read before asking
 
 Read `docs/DECISIONS.md`. Read every record in the area the decision touches,
@@ -34,11 +38,12 @@ first. Ask only for slots still empty.
 |---|---|
 | Context | What was true before, and what forced a choice now |
 | Decision | What was decided, and the constraint behind each part |
-| Decided by | The user, unless the text names someone else. Do not ask otherwise |
+| Decided by | Written as "the project owner" when the user decided; a role when the text names someone else. Never "the user" or "the owner" alone: domain words |
+| Date | When the decision was taken. The text says "we agreed", "since", or names a past event: ask for the date. Otherwise today |
 | Consequences | What follows, including failure modes the code will not show |
 | Alternatives | Every option weighed: why it lost, who rejected it |
 | Revisit when | Optional. Ask once; "none" is an answer |
-| Area | The `###` heading in the index. Propose an existing one |
+| Area | An existing `###` heading in the index. None fits: the name of the matching page in the project's docs (such as `docs/domains/*.md`), then a new name |
 
 The interview:
 
@@ -48,9 +53,9 @@ The interview:
   user can always answer in their own words.
 - For alternatives, first ask what else was on the table. Then propose the
   likely options from the domain for the user to confirm or strike.
-- Settled without asking: date is today, number is the next free one,
-  file name comes from the title, status is `accepted`, language is the
-  language of the project's documentation (English when there is none).
+- Settled without asking: number is the next free one, file name comes from
+  the title, status is `accepted`, language is the language of the project's
+  documentation (English when there is none).
 - Out of scope: code changes, tests, tickets, commits, the `CLAUDE.md`
   section. The record names what the code must do; the change is another task.
 - When the user says "enough", stop. An empty slot reads `Not recorded.`
@@ -70,9 +75,11 @@ Write `docs/decisions/NNNN-slug.md`. Add the row under its area heading. Add
 python3 -I "${CLAUDE_SKILL_DIR}/scripts/adr_check.py" .
 ```
 
-Fix what it reports in the index or the file, never in the script. Reply in one
-line: `ADR-NNNN — docs/decisions/NNNN-slug.md`, ready to paste into a
-brainstorm.
+Fix what it reports in the index or the file, never in the script. Reply with
+one line, `ADR-NNNN — docs/decisions/NNNN-slug.md`, ready to paste into a
+brainstorm. Under it, list the files found in step 2 that implement the
+decision, one per line, as places to cite it from: a comment that says what
+the code does and ends with `(ADR-NNNN)`. Do not edit them.
 
 ## The record
 
@@ -89,7 +96,9 @@ Each alternative: the option in bold, why it lost, who rejected it. Template:
 | Mistake | Instead |
 |---|---|
 | Several questions in one message | One slot, one question, wait |
-| Asking for date, number, file name, language, status | Settle them by the rules above |
+| Asking for number, file name, language, status | Settle them by the rules above |
+| Dated today when the text says it was decided earlier | Ask for the date; the number stays the next free one |
+| "Decided by the owner" or "by the user" | "the project owner", or the role the text names |
 | Asking whether to change code or open a ticket | Out of scope; the record only |
 | Inventing conventions when `docs/` is empty | Set up from the assets first |
 | Writing the file before the draft is approved | Draft, wait, then write |
