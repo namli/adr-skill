@@ -11,7 +11,7 @@ Format and conventions follow "Decisions that outlive the session" (CodeMiner, 2
 ## Install
 
 ```bash
-git clone git@github.namli:namli/adr-skill.git ~/adr-skill
+git clone https://github.com/namli/adr-skill.git ~/adr-skill
 ln -s ~/adr-skill ~/.claude/skills/adr
 ```
 
